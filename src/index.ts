@@ -6,6 +6,7 @@ import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import notFoundMiddleware from "./middlewares/not-found";
 import errorMiddleware from "./middlewares/error";
+import { cloudWatchLog } from "./utils/cloudwatch";
 
 const app: Application = express();
 
@@ -21,8 +22,16 @@ app.use(
 );
 
 app.use(express.json());
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
+
+app.get("/", async (req: Request, res: Response) => {
+  const result = await cloudWatchLog(
+    {
+      "Transaction-ID": "xxxx-xxxx-xxxx-za",
+      "basic-auth": "ผฟผฟ",
+    },
+    "reserveItemAPI"
+  );
+  res.status(200).json(result);
 });
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
