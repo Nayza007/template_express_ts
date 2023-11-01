@@ -24,14 +24,7 @@ app.use(
 app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
-  const result = await cloudWatchLog(
-    {
-      "Transaction-ID": "xxxx-xxxx-xxxx-za",
-      "basic-auth": "ผฟผฟ",
-    },
-    "reserveItemAPI"
-  );
-  res.status(200).json(result);
+  res.status(200).json("Hello");
 });
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
